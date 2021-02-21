@@ -35,7 +35,7 @@ public class LoginFragment extends BaseToolbarFragment {
 	private boolean sentCode = false;
 
 	@Override
-	public View onCreateContentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateContentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		View view=inflater.inflate(R.layout.login, container, false);
 
 		phoneInput=view.findViewById(R.id.phone_input);
@@ -54,39 +54,39 @@ public class LoginFragment extends BaseToolbarFragment {
 		return view;
 	}
 
-	private String getCleanPhoneNumber() {
-		String number = countryCodePicker.getFullNumber() + phoneInput.getText().toString();
-		return '+' + number;
+	private String getCleanPhoneNumber(){
+		String number=countryCodePicker.getFullNumber()+phoneInput.getText().toString();
+		return '+'+number;
 	}
 
     private void onNextClick(View v){
-		if (sentCode) {
+		if(sentCode){
 			new CompletePhoneNumberAuth(getCleanPhoneNumber(), codeInput.getText().toString())
 					.wrapProgress(getActivity())
-					.setCallback(new SimpleCallback<CompletePhoneNumberAuth.Response>(this) {
+					.setCallback(new SimpleCallback<CompletePhoneNumberAuth.Response>(this){
 						@Override
-						public void onSuccess(CompletePhoneNumberAuth.Response result) {
-							ClubhouseSession.userToken = result.authToken;
-							ClubhouseSession.userID = result.userProfile.userId + "";
-							ClubhouseSession.isWaitlisted = result.isWaitlisted;
+						public void onSuccess(CompletePhoneNumberAuth.Response result){
+							ClubhouseSession.userToken=result.authToken;
+							ClubhouseSession.userID=result.userProfile.userId+"";
+							ClubhouseSession.isWaitlisted=result.isWaitlisted;
 							ClubhouseSession.write();
-							if (result.isWaitlisted) {
+							if(result.isWaitlisted){
 								Nav.goClearingStack(getActivity(), WaitlistedFragment.class, null);
-							} else if (result.userProfile.username == null) {
+							}else if(result.userProfile.username==null){
 								Nav.goClearingStack(getActivity(), RegisterFragment.class, null);
-							} else {
+							}else{
 								Nav.goClearingStack(getActivity(), HomeFragment.class, null);
 							}
 						}
 					})
 					.exec();
-		} else {
+		}else{
 			new StartPhoneNumberAuth(getCleanPhoneNumber())
 					.wrapProgress(getActivity())
-					.setCallback(new SimpleCallback<BaseResponse>(this) {
+					.setCallback(new SimpleCallback<BaseResponse>(this){
 						@Override
-						public void onSuccess(BaseResponse result) {
-							sentCode = true;
+						public void onSuccess(BaseResponse result){
+							sentCode=true;
 							phoneInput.setEnabled(false);
 							countryCodePicker.setClickable(false);
 							codeInput.setVisibility(View.VISIBLE);
@@ -94,7 +94,7 @@ public class LoginFragment extends BaseToolbarFragment {
 						}
 
 						@Override
-						public void onError(ErrorResponse error) {
+						public void onError(ErrorResponse error){
 							Toast.makeText(LoginFragment.this.getContext(), "Login failed", Toast.LENGTH_SHORT).show();
 						}
 					})
@@ -102,7 +102,7 @@ public class LoginFragment extends BaseToolbarFragment {
 		}
 	}
 
-	private void onResendClick(View v) {
+	private void onResendClick(View v){
 		new ResendPhoneNumberAuth(getCleanPhoneNumber())
 				.wrapProgress(getActivity())
 				.exec();

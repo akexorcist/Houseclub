@@ -35,21 +35,15 @@ public class LoginFragment extends BaseToolbarFragment {
 	private boolean sentCode = false;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-//		setTitle(R.string.login);
-	}
-
-	@Override
 	public View onCreateContentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.login, container, false);
+		View view=inflater.inflate(R.layout.login, container, false);
 
-		phoneInput = view.findViewById(R.id.phone_input);
-		codeInput = view.findViewById(R.id.code_input);
-		resendBtn = view.findViewById(R.id.resend_code);
-		nextBtn = view.findViewById(R.id.next);
-		countryCodePicker = view.findViewById(R.id.country_code_picker);
-		resendCodeLayout = view.findViewById(R.id.resend_code_layout);
+		phoneInput=view.findViewById(R.id.phone_input);
+		codeInput=view.findViewById(R.id.code_input);
+		resendBtn=view.findViewById(R.id.resend_code);
+		nextBtn=view.findViewById(R.id.next);
+		countryCodePicker=view.findViewById(R.id.country_code_picker);
+		resendCodeLayout=view.findViewById(R.id.resend_code_layout);
 
 		codeInput.setVisibility(View.GONE);
 		resendCodeLayout.setVisibility(View.GONE);
@@ -65,7 +59,7 @@ public class LoginFragment extends BaseToolbarFragment {
 		return '+' + number;
 	}
 
-	private void onNextClick(View v) {
+    private void onNextClick(View v){
 		if (sentCode) {
 			new CompletePhoneNumberAuth(getCleanPhoneNumber(), codeInput.getText().toString())
 					.wrapProgress(getActivity())
